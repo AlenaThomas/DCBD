@@ -12,6 +12,7 @@ space_output = 0
 
 print("Welcome to Spazer\n")
 
+# create a list of all districts and cities in India from collates csv files
 city_distr_list = []
 file_path = os.path.dirname(__file__)
 
@@ -31,6 +32,7 @@ file1.close()
 
 PINCODE = r'(\b\d{3}\s?\d{3}\b)|(\b\d{2}\b)'
 
+# a list of possible keywords that can be found in a regular address
 ADDRESS_KEYWORDS = ['floor', 'building', 'block', 'no.', 'avenue', 'annexe', 'road', 'tower', 'sector', 'plot', 'phase', 'gate', 'junction',
                     'street', 'lane', 'flat', 'complex', 'colony']
 
@@ -51,7 +53,8 @@ for x in range(5):
        
         #Your code begins  ###############################
 
-        output_words = []
+        # get a list of all words
+        output_words = [] 
         output_lines = output.splitlines()
         for line in output_lines:
             for word in line.split(' '):
@@ -70,9 +73,12 @@ for x in range(5):
                         if extracted_text != "":
                             c = extracted_text.index(output_words[i])
                             matches = re.findall(PINCODE, extracted_text[c:])
+
+                            # if a pincode is found, then consider that text as an address
                             if matches:
                                 addresses.append(extracted_text)
-    
+
+                            # else check presence of any common address keywords in text
                             else:
                                 s = extracted_text[:c].lower()
                                 result = any(k in s for k in ADDRESS_KEYWORDS)
@@ -94,7 +100,7 @@ for x in range(5):
                             if flag:
                                 break
 
-        
+        # fuzzy matching to identify similar extracted text and remove duplicates
         final_addresses = []
         for i in range(len(addresses)-1):
             if fuzz.ratio(addresses[i], addresses[i+1]) < 90:
