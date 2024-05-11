@@ -37,7 +37,7 @@ ADDRESS_KEYWORDS = ['floor', 'building', 'block', 'no.', 'avenue', 'annexe', 'ro
                     'street', 'lane', 'flat', 'complex', 'colony']
 
 
-for x in range(5):
+for x in range(10):
     filename = str(x) + ".html"
     file = pathlib.Path('input/' + filename)
     if (file.exists()):
